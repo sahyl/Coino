@@ -23,7 +23,6 @@ const CandlestickChart = ({
   initialPeriod = "daily",
 }: CandlestickChartProps) => {
   const [isPending, startTransition] = useTransition();
-  const [loading, setLoading] = useState(false);
   const chartContainerRef = useRef<HTMLDivElement | null>(null);
   const chartRef = useRef<IChartApi | null>(null);
   const candleSeriesRef = useRef<ISeriesApi<"Candlestick"> | null>(null);
@@ -118,7 +117,7 @@ const CandlestickChart = ({
                 period === value ? "config-button-active" : "config-button"
               }
               onClick={() => handlePeriodChange(value)}
-              disabled={loading}
+              disabled={isPending}
             >
               {label}
             </button>
