@@ -54,7 +54,7 @@ const TrendingCoins = async () => {
               <TrendingDown width={16} height={16} />
             )}
             <p>
-              {formatPercentage(item.data.price_change_percentage_24h.usd)}%
+              {formatPercentage(item.data.price_change_percentage_24h.usd)}
             </p>
           </div>
         );
