@@ -5,16 +5,48 @@ interface NextPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+
+
+// types/coingecko.ts
+
+ interface CoinMarket {
+  name: string;
+  identifier: string;
+  logo?: string; // optional, not all markets have logos
+  has_trading_incentive?: boolean;
+}
+
+interface CoinTicker {
+  base: string; // token symbol
+  target: string; // paired currency symbol
+  market: CoinMarket;
+  last: number; // last traded price
+  volume: number; // 24h volume
+  converted_volume?: {
+    usd?: number;
+  };
+  trust_score?: 'green' | 'yellow' | 'red';
+  trade_url?: string;
+}
+
+interface CoinTickersResponse {
+  name: string; // coin name
+  tickers: CoinTicker[];
+}
+
+
 interface CandlestickChartProps {
+  coinId: string;
   data?: OHLCData[];
   liveOhlcv?: OHLCData | null;
-  coinId: string;
   height?: number;
   children?: React.ReactNode;
   mode?: 'historical' | 'live';
   initialPeriod?: Period;
-  liveInterval: '1s' | '1m';
-  setLiveInterval: (interval: '1s' | '1m') => void;
+
+  // 🔥 LIVE-ONLY (make optional)
+  liveInterval?: '1s' | '1m';
+  setLiveInterval?: (interval: '1s' | '1m') => void;
 }
 
 interface ConverterProps {
@@ -173,6 +205,28 @@ interface WebSocketMessage {
   identifier?: string;
 }
 
+interface CoinTicker {
+  market: {
+    name: string;
+    identifier?: string;
+    logo?: string;
+    has_trading_incentive?: boolean;
+  };
+  base: string;
+  target: string;
+  last: number;
+  volume: number;
+  converted_volume?: {
+    usd?: number;
+  };
+  trust_score?: 'green' | 'yellow' | 'red';
+  trade_url?: string;
+}
+
+
+
+
+
 interface CoinDetailsData {
   id: string;
   name: string;
@@ -217,7 +271,12 @@ interface CoinDetailsData {
   links: {
     homepage: string[];
     blockchain_site: string[];
-    subreddit_url: string;
+    subreddit_url?: string;
+    twitter_screen_name?: string;
+    repos_url?: {
+      github?: string[];
+      bitbucket?: string[];
+    };
   };
   tickers: Ticker[];
 }

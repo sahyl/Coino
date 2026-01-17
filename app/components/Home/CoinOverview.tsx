@@ -4,10 +4,12 @@ import Image from "next/image";
 import { CoinOverviewFallback } from "./fallback";
 import CandlestickChart from "../CandlestickChart";
 
-const CoinOverview = async () => {
+
+type CoinName = {coinName:string}
+const CoinOverview = async ({coinName}:CoinName) => {
   try {
     const [coin, coinOHLCData] = await Promise.all([
-      fetcher<CoinDetailsData>("/coins/bitcoin", {
+      fetcher<CoinDetailsData>(`/coins/${coinName}`, {
         localization: false,
         tickers: false,
         market_data: true,
@@ -15,7 +17,7 @@ const CoinOverview = async () => {
         developer_data: false,
         sparkline: false,
       }),
-      fetcher<OHLCData[]>("/coins/bitcoin/ohlc", {
+      fetcher<OHLCData[]>(`/coins/${coinName}/ohlc`, {
         vs_currency: "usd",
         days: 1,
       }),
