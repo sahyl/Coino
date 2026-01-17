@@ -15,9 +15,10 @@ export function formatCurrency(
   if (value === null || value === undefined || isNaN(value)) {
     return showSymbol !== false ? '$0.00' : '0.00';
   }
+  const locale = 'en-US';
 
   if (showSymbol === undefined || showSymbol === true) {
-    return value.toLocaleString(undefined, {
+    return value.toLocaleString(locale, {
       style: 'currency',
       currency: currency?.toUpperCase() || 'USD',
       minimumFractionDigits: digits ?? 2,
